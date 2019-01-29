@@ -183,15 +183,33 @@ namespace CefSharp.MinimalExample.WinForms
 
         private void saveImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            int w = 200;    //  browser.Width
+            int h = 100;    //  browser.Height
             Graphics g1 = browser.CreateGraphics();
-            Image myImage = new Bitmap(browser.Width, browser.Height, g1);
+            Image myImage = new Bitmap(w, h, g1);
             Graphics g2 = Graphics.FromImage(myImage);
             IntPtr dc1 = g1.GetHdc();
             IntPtr dc2 = g2.GetHdc();
-            BitBlt(dc2, 0, 0, browser.Width, browser.Height, dc1, 0, 0, 13369376);
+            //BitBlt(dc2, 0, 0, browser.Width, browser.Height, dc1, 0, 0, 13369376);
+            BitBlt(dc2, 0, 0, w, h, dc1, 0, 0, 13369376);
             g1.ReleaseHdc(dc1);
             g2.ReleaseHdc(dc2);
-            myImage.Save(@"e:\\11.bmp");
+
+            string f1 = @"e:\\11.bmp";
+            string f2 = @"e:\\12.bmp";
+            myImage.Save(f1);
+            WhiteBackground2Transparent(f1, f2);
+        }
+
+
+        //  C#把白色背景变成透明
+        private void WhiteBackground2Transparent(string src, string dst)
+        { 
+            Image image;
+            image = Image.FromFile(src);
+            Bitmap bitmap = new Bitmap(image);
+            bitmap.MakeTransparent(Color.White);
+            bitmap.Save(dst);
         }
     }
 }
