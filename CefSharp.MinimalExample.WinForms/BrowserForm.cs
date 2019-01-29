@@ -181,6 +181,7 @@ namespace CefSharp.MinimalExample.WinForms
             System.Int32 dwRop//光栅的操作值
             );
 
+        //  html -> image 图片
         private void saveImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int w = 200;    //  browser.Width
