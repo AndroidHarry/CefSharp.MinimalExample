@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using CefSharp.MinimalExample.WinForms.Controls;
 using CefSharp.WinForms;
@@ -20,7 +21,7 @@ namespace CefSharp.MinimalExample.WinForms
             Text = "CefSharp";
             WindowState = FormWindowState.Maximized;
 
-            browser = new ChromiumWebBrowser("www.google.com")
+            browser = new ChromiumWebBrowser("www.baidu.com")
             {
                 Dock = DockStyle.Fill,
             };
@@ -164,6 +165,33 @@ namespace CefSharp.MinimalExample.WinForms
         private void ShowDevToolsMenuItemClick(object sender, EventArgs e)
         {
             browser.ShowDevTools();
+        }
+
+
+        [System.Runtime.InteropServices.DllImportAttribute("gdi32.dll")]
+        private static extern bool BitBlt(
+            IntPtr hdcDest,//目标设备的句柄
+            int nXDest,//目标对象的左上角x坐标
+            int nYDest,//目标对象的左上角Y坐标
+            int nWidth,//目标对象的矩形宽度
+            int nHeight,//目标对象的矩形长度
+            IntPtr hdcSrc,//源设备的句柄
+            int nXSrc,//源对象的左上角x坐标
+            int nYSrc,//源对象的左上角y坐标
+            System.Int32 dwRop//光栅的操作值
+            );
+
+        private void saveImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Graphics g1 = browser.CreateGraphics();
+            Image myImage = new Bitmap(browser.Width, browser.Height, g1);
+            Graphics g2 = Graphics.FromImage(myImage);
+            IntPtr dc1 = g1.GetHdc();
+            IntPtr dc2 = g2.GetHdc();
+            BitBlt(dc2, 0, 0, browser.Width, browser.Height, dc1, 0, 0, 13369376);
+            g1.ReleaseHdc(dc1);
+            g2.ReleaseHdc(dc2);
+            myImage.Save(@"e:\\11.bmp");
         }
     }
 }
