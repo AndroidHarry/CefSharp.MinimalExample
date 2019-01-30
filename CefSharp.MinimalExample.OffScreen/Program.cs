@@ -17,7 +17,7 @@ namespace CefSharp.MinimalExample.OffScreen
 
         public static void Main(string[] args)
         {
-            const string testUrl = "https://www.google.com/";
+            const string testUrl = "http://localhost:35675/authorize/jdebugnickname";  // "https://www.baidu.com/";
 
             Console.WriteLine("This example application will load {0}, take a screenshot, and save it to your desktop.", testUrl);
             Console.WriteLine("You may see Chromium debugging output, please wait...");
